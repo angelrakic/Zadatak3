@@ -2,18 +2,39 @@
 //  ViewController.swift
 //  Zadatak3_userDefaults
 //
-//  Created by Andjela Rakic on 10/12/21.
+//  Created by Andjela Rakic on 10/11/21.
 //
 
+import UIKit
+import CoreFoundation
 import Foundation
+
+struct Stores: Decodable {
+    let address: String
+    let city: String
+    let name: String
+    let storeLogoURL: String
+}
+
+guard let sourceURL = Bundle.main.url(forResource: "Data", withExtension: "json") else {
+    fatalError("Could not find Data.json")
+}
+
+guard let storeData = try? Data(contentsOf: sourceURL) else {
+    fatalError("Could not convert data")
+}
+
+let stores: String
 
 class ViewController: UIViewController {
 
     @IBOutlet weak var textLabel: UILabel!
-    @IBOutlet weak var inputField: UITextField!
+    @IBOutlet weak var inputField: UITextField
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var cityLabel: UILabel!
-    //  @IBOutlet weak var enterStoresNameField: UITextField!
+    @IBOutlet weak var enterStoresNameField: UITextField!
+    
+    
     
     var store = Store(name: "None", city: "", storeLogoURL: "Image")
    // var city = kCGImagePropertyDNGProfileHueSatMapData1
@@ -36,7 +57,7 @@ class ViewController: UIViewController {
         }
     }
 
-    @IBAction func buttonPressed(_ sender: Any) {
+    @IBAction func buttonPressed(_ sender: Any)  {
         
         textLabel.text = inputField.text
         UserDefaults.standard.set(inputField.text, forKey: "myTextData")
@@ -71,6 +92,12 @@ class ViewController: UIViewController {
             
         }
         
+        print(Data.stores)
+        for store in Data.stores {
+            print(store.description)
+            
+        }
+        
     }
     
     
@@ -92,11 +119,4 @@ class ViewController: UIViewController {
         
     }
     
-     
-
-    let json = JSON(data: jsonData!)
-    for (index, subjson): (String, JSON) in json{
-        let value = subjson["key"].stringValue
-        
-    }
 }
